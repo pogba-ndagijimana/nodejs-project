@@ -1,0 +1,119 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+
+function Home() {
+  const {logout, currentUser} = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  }
+
+  // Sample data for supermarket stats
+  const supermarketStats = [
+    { category: "Daily Customers", count: 1245, trend: "up" },
+    { category: "Products Available", count: 2876, trend: "up" },
+    { category: "Employees", count: 36, trend: "up" },
+    { category: "Monthly Sales (RWF)", count: 28500000, trend: "up" }
+  ];
+
+  // Sample data for popular products
+  const popularProducts = [
+    { title: "Fresh Vegetables", category: "Produce", sales: 342 },
+    { title: "Dairy Products", category: "Dairy", sales: 298 },
+    { title: "Beverages", category: "Drinks", sales: 275 },
+    { title: "Bakery Items", category: "Bakery", sales: 261 }
+  ];
+
+  // Supermarket-themed background image
+  const pageStyle = {
+    backgroundImage: "url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')",
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    minHeight: "100vh"
+  };
+
+  // Style for content containers
+  const contentStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.97)",
+    borderRadius: "0.5rem",
+    padding: "2rem",
+    marginBottom: "2rem",
+    boxShadow: "0 0 20px rgba(0, 0, 0, 0.15)",
+    border: "1px solid rgba(0, 0, 0, 0.1)"
+  };
+
+  return (
+    <div className="home-page" style={pageStyle}>
+      {/* Improved Navbar with better organization */}
+      <nav className="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div className="container-fluid">
+          {/* Brand and title - shows on all screens */}
+          <div className="d-flex align-items-center">
+            <Link className="navbar-brand d-flex align-items-center me-0 me-lg-3" to="/">
+              <i className="fas fa-shopping-cart me-2"></i>
+              <span className="fw-bold">MarketPro Rwanda</span>
+            </Link>
+            <h1 className="mb-0 d-none d-lg-block fs-5">SUPERMARKET MANAGEMENT SYSTEM</h1>
+          </div>
+          
+          <button 
+            className="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          
+          <div className="collapse navbar-collapse" id="navbarContent">
+            {/* Main navigation links */}
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link active" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Product">Product</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/StoctIn">StockIn</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/StockOut">StockOut</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Report">Reports</Link>
+              </li>
+            </ul>
+            
+            {/* User info and logout - aligned to right */}
+            <div className="d-flex align-items-center">
+              {currentUser && (
+                <span className="text-light me-3 d-none d-sm-inline">
+                  Welcome, <strong>{currentUser.name}</strong>
+                </span>
+              )}
+              <button 
+                className="btn btn-outline-light" 
+                onClick={handleLogout}
+              >
+                <i className="fas fa-sign-out-alt me-1"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div> 
+      </nav>
+      
+      {/* Rest of your page content would go here */}
+    </div>
+  );
+}
+
+export default Home;
